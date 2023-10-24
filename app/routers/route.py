@@ -7,6 +7,6 @@ router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
 @router.get("/")
-async def root():
-    request = {"Hello" : "World"}
+async def root(request: Request, response: Response):
+    
     return templates.TemplateResponse("index.html", {"request": request})

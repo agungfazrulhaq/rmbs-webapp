@@ -47,6 +47,7 @@ class User(BaseModel):
             name=self.name,
             username=self.username,
             email=self.email,
+            enable_status=self.enable_status
         )
         self.password = pwd_context.hash(self.password.get_secret_value())
         db_user.password = self.password
