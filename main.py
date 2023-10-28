@@ -1,6 +1,6 @@
 # main.py
 from fastapi import FastAPI, HTTPException
-from app.routers import route, auth, users
+from app.routers import route, auth, users, booking
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse, HTMLResponse
 import uvicorn
@@ -9,6 +9,7 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 app.include_router(route.router, tags=['mainmenu'])
 app.include_router(auth.router, prefix='/auth', tags=['authentication'])
+app.include_router(booking.router, prefix='/booking', tags=['booking_service'])
 
 
 @app.exception_handler(HTTPException)
