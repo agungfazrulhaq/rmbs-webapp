@@ -3,13 +3,14 @@ from fastapi import APIRouter, HTTPException, Depends, Request, Response, Form, 
 from typing import Annotated
 from sqlalchemy.orm import Session
 from app.models.user import User, UserDB
-from app.database.connection import SessionLocal
+from app.models.role import RoleDB
+from app.database.connection import SessionLocal, redis_connection
 from fastapi.responses import RedirectResponse, HTMLResponse
 from fastapi.templating import Jinja2Templates
 from passlib.context import CryptContext
 from pydantic import SecretStr
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
-from app.utils.auth_handler import signJWT, decodeJWT, decode_jwt_token
+from app.utils.auth_handler import signJWT, decodeJWT, decode_jwt_token, new_active_token, reset_expiration_active_token, remove_active_token_key
 from app.utils.auth_bearer import JWTBearer
 
 router = APIRouter()
@@ -35,6 +36,13 @@ def get_current_user(userlogin, db: Session = Depends(get_db)):
     print(f"user email: {user.email}, role: {user.role_id}")
     return user
 
+def get_role(role_id,  db: Session = Depends(get_db)):
+    role = RoleDB.get_by_role_id(db, role_id)
+    if role is None :
+        raise HTTPException(status_code=401, detail="Invalid role")
+    
+    return role
+
 @router.get("/login")
 async def login(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
@@ -43,11 +51,13 @@ async def login(request: Request):
 def login(response: Response, username: Annotated[str, Form()], password: Annotated[str, Form()], db: Session = Depends(get_db)):
     userlogin = {"username": username, "password": password}
     user = get_current_user(userlogin, db)
-    
-    token = signJWT(user.username, user.role_id)
+    current_role = get_role(user.role_id, db)
+    token = signJWT(user.username, user.name, current_role.rolename)
     active_tokens.append(token)
-    response = RedirectResponse(url="/auth/protected", status_code=303)
+    response = RedirectResponse(url="/", status_code=303)
     response.set_cookie(key="Authorization", value=f"Bearer {token}")
+    unique_id = new_active_token(token)
+    response.set_cookie(key="UniqueID", value=unique_id)
     # print(response.headers["Authorization"])
     return response
 
@@ -56,7 +66,9 @@ def read_protected_route(request: Request, response: Response, current_user: dic
     token = request.cookies.get("Authorization", "").replace("Bearer ", "")
     if not current_user:
         raise HTTPException(status_code=401, detail="Unauthorized")
-    if token not in active_tokens:
+    unique_id = request.cookies.get("UniqueID", "")
+    print(unique_id)
+    if not reset_expiration_active_token(unique_id):
         raise HTTPException(status_code=401, detail="Unauthorized")
     return {"message": "This is protected", "user profile": current_user}
 
@@ -67,6 +79,8 @@ def read_unprotected_route():
 @router.get("/logout")
 def logout(response: Response, request: Request):
     token = request.cookies.get("Authorization", "").replace("Bearer ", "")
+    unique_id = request.cookies.get("UniqueID", "")
+    remove_active_token_key(unique_id)
     print(token)
     try:
         active_tokens.remove(token)

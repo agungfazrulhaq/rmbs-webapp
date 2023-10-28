@@ -83,7 +83,7 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider">
-
+    {% if request.user.role_id == "sysadmin" %}
     <!-- Heading -->
     <div class="sidebar-heading">
         Manage
@@ -105,6 +105,7 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
+    {% endif %}
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">

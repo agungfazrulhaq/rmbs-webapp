@@ -1,6 +1,8 @@
 import time
 from typing import Dict
 from fastapi import Depends, HTTPException, Request
+from app.database.connection import redis_connection as r
+import uuid
 
 import jwt
 import json
@@ -17,11 +19,12 @@ def token_response(token: str):
         "access_token": token
     }
 
-def signJWT(user_id: str, role_id: str) -> Dict[str, str]:
+def signJWT(user_id: str, user_name:str, role_id: str) -> Dict[str, str]:
     payload = {
         "user_id": user_id,
+        "user_name": user_name,
         "role_id": role_id,
-        "expires": time.time() + 600
+        "ttl": 3600
     }
     token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
 
@@ -48,4 +51,19 @@ def decode_jwt_token(request: Request, token: str = None):
         return decoded_token
     except:
         raise HTTPException(status_code=401, detail="Invalid token")
+
+def new_active_token(token):
+    unique_flag = False
+    while not unique_flag :
+        unique_id = uuid.uuid4()
+        if r.set(f'token:{unique_id}', token, ex=3600, nx=True) :
+            unique_flag = True
+
+    return unique_id
+
+def reset_expiration_active_token(unique_id):
+    return r.expire(f'token:{unique_id}', 3600)
+
+def remove_active_token_key(unique_id):
+    return r.delete(f'token:{unique_id}')
         

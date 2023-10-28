@@ -34,7 +34,8 @@
                     {% include 'navbar.html' %}
                     
                     <div class="container-fluid">
-                        <h1>Welcome!</h1>
+                        <h1>Welcome!, {{ request.user.user_name }}</h1>
+                        <h4>Current Role : {{ request.user.role_id }} </h4>
                     </div>
                 </div>
             
