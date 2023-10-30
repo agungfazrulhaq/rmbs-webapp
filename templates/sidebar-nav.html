@@ -13,7 +13,7 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
+    <li class="nav-item">
         <a class="nav-link" href="index.html">
             <!-- <i class="fas fa-fw fa-tachometer-alt"></i> -->
             <span>Dashboard</span></a>
@@ -28,7 +28,7 @@
     </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
+    <li class="nav-item" id="bookingItem">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
             aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-door-open"></i>
@@ -36,10 +36,10 @@
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="">Schedule</a>
-                <a class="collapse-item" href="">Rooms</a>
-                <a class="collapse-item" href="">Book</a>
-                <a class="collapse-item" href="">Reports</a>
+                <a class="collapse-item" href="/booking/schedules" id="bookingSchedule">Schedule</a>
+                <a class="collapse-item" href="" id="bookingRooms">Rooms</a>
+                <a class="collapse-item" href="/booking/form" id="bookingForm">Book</a>
+                <a class="collapse-item" href="" id="bookingReports">Reports</a>
             </div>
         </div>
     </li>
@@ -54,9 +54,9 @@
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="utilities-color.html">Schedule</a>
-                <a class="collapse-item" href="utilities-border.html">Applications</a>
-                <a class="collapse-item" href="utilities-animation.html">Reports</a>
+                <a class="collapse-item" href="#">Schedule</a>
+                <a class="collapse-item" href="#">Applications</a>
+                <a class="collapse-item" href="#">Reports</a>
             </div>
         </div>
     </li>
@@ -70,13 +70,13 @@
     </div>
 
     <li class="nav-item">
-        <a class="nav-link" href="tables.html">
+        <a class="nav-link" href="#">
             <i class="fas fa-fw fa-question"></i>
             <span>FAQ</span></a>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="tables.html">
+        <a class="nav-link" href="#">
             <i class="fas fa-fw fa-info"></i>
             <span>About</span></a>
     </li>
@@ -91,14 +91,14 @@
 
     <!-- Nav Item - Charts -->
     <li class="nav-item">
-        <a class="nav-link" href="charts.html">
+        <a class="nav-link" href="#">
             <i class="fas fa-fw fa-user"></i>
             <span>Users</span></a>
     </li>
 
     <!-- Nav Item - Tables -->
     <li class="nav-item">
-        <a class="nav-link" href="tables.html">
+        <a class="nav-link" href="#">
             <i class="fas fa-fw fa-door-closed"></i>
             <span>Rooms</span></a>
     </li>

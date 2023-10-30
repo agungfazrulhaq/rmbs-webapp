@@ -1,6 +1,6 @@
 # route.py
 from fastapi import APIRouter, HTTPException, Depends, Request, Response, Form, Body
-from typing import Annotated
+from typing import Annotated, Optional
 from sqlalchemy.orm import Session
 from app.models.user import User, UserDB
 from app.models.role import RoleDB
@@ -44,8 +44,8 @@ def get_role(role_id,  db: Session = Depends(get_db)):
     return role
 
 @router.get("/login")
-async def login(request: Request):
-    return templates.TemplateResponse("login.html", {"request": request})
+async def login(request: Request, invalidlogin: Optional[bool]= False):
+    return templates.TemplateResponse("login.html", {"request": request, "invalidlogin": invalidlogin})
 
 @router.post("/login")
 def login(response: Response, username: Annotated[str, Form()], password: Annotated[str, Form()], db: Session = Depends(get_db)):

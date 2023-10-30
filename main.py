@@ -14,8 +14,11 @@ app.include_router(booking.router, prefix='/booking', tags=['booking_service'])
 
 @app.exception_handler(HTTPException)
 async def custom_exception_handler(request, exc):
+    redirect_url = '/auth/login'
     if exc.status_code == 401 :
-        return RedirectResponse(url='/auth/login', status_code=303)
+        if exc.detail == "Invalid username or password" :
+            redirect_url = '/auth/login?invalidlogin=True'
+        return RedirectResponse(url=redirect_url, status_code=303)
     return {"detail": exc.detail}
 
 if __name__ == "__main__":

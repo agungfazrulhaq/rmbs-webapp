@@ -48,6 +48,11 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
+                                    {% if invalidlogin %}
+                                    <div id="error-box" class="alert alert-danger" role="alert">
+                                        Invalid username or password!
+                                    </div>
+                                    {% endif %}
                                     <form action="/auth/login" method="post" class="user">
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user"
