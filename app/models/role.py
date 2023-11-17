@@ -20,3 +20,7 @@ class RoleDB(Base):
     @staticmethod
     def get_by_role_id(db: Session, role_id: int):
         return db.query(RoleDB).filter(RoleDB.role_id == role_id).first()
+    
+    @staticmethod
+    def get_all_roles(db: Session):
+        return db.query(RoleDB).all()

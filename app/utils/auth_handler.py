@@ -66,4 +66,15 @@ def reset_expiration_active_token(unique_id):
 
 def remove_active_token_key(unique_id):
     return r.delete(f'token:{unique_id}')
-        
+
+def authenticate_user(token, request, response, current_user=None):
+    if not current_user:
+        # raise HTTPException(status_code=401, detail="Unauthorized")
+        return False
+    unique_id = request.cookies.get("UniqueID", "")
+    # print(unique_id)
+    if not reset_expiration_active_token(unique_id):
+        # raise HTTPException(status_code=401, detail="Unauthorized")
+        return False
+
+    return True        
