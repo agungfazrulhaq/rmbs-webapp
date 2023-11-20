@@ -34,5 +34,6 @@ async def root(request: Request, response: Response, current_user: dict = Depend
     if not authenticate_user:
         raise HTTPException(status_code=401, detail="Unauthorized")
     
-    request = {"Hello" : "World", "user" : current_user}
-    return templates.TemplateResponse("index.html", {"request": request})
+    # request = {"Hello" : "World", "user" : current_user}
+    redirect_url = '/admin/rooms'
+    return RedirectResponse(url=redirect_url, status_code=303)

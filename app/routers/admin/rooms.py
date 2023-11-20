@@ -22,6 +22,15 @@ def get_db():
 
 @router.get("/")
 async def read_rooms(request: Request, response: Response, current_user: dict = Depends(decode_jwt_token)):
-    return {"message": "Listing all rooms"}
+    token = request.cookies.get("Authorization", "").replace("Bearer ", "")
+    if not current_user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    unique_id = request.cookies.get("UniqueID", "")
+    print(unique_id)
+    if not reset_expiration_active_token(unique_id):
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    
+    # request = {"Hello" : "World", "user" : current_user}
+    return templates.TemplateResponse("rooms-admin.html", {"request": request})
 
 # Add more room-related endpoints here
