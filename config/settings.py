@@ -12,3 +12,8 @@ JWT_ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
 
 REDIS_HOST = os.getenv("REDIS_HOST")
 REDIS_PORT = os.getenv("REDIS_PORT")
+
+MINIO_HOST = os.getenv("MINIO_HOST")
+MINIO_PORT = os.getenv("MINIO_PORT")
+MINIO_ACCESS = os.getenv("MINIO_ACCESS")
+MINIO_SECRET = os.getenv("MINIO_SECRET")
