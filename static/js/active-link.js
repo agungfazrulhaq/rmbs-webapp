@@ -34,4 +34,13 @@
         }
       };
 //   });
+    if (path === '/booking/rooms') {
+      // Find the element with ID 'room-menu'
+      const bookingMenuElement = document.getElementById('bookingRooms');
+
+      // Add the 'active' class to the element
+      if (bookingMenuElement) {
+        bookingMenuElement.classList.add('active');
+      }
+    };
   

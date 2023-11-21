@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    {% include 'header-1.html' %}
+
+    <title>SB Admin 2 - Dashboard</title>
+
+    {% include 'header.html' %}
+    <style>
+        .room-image {
+            max-width: 540px; /* Adjust the maximum width as needed */
+            height: auto;
+        }
+    </style>
+
+</head>
+    <body class="page-top">
+        <!-- Page Wrapper -->
+        <div id="wrapper">
+            {% include 'sidebar-nav.html' %}
+
+            <!-- Content wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+                <!-- Main Content -->
+                <div id="content">
+                    {% include 'navbar.html' %}
+                    <div class="container-fluid">
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Rooms</h1>
+                    </div>
+                    
+                    <!-- <div class="row"> -->
+                    <!-- Room Selection Dropdown -->
+                    <!-- <div class="form-group">
+                        <label for="roomSelect">Select a Room:</label>
+                        <select class="form-control" id="roomSelect">
+                            <option value="room1">Room 1</option>
+                            <option value="room2">Room 2</option>
+                            <option value="room3">Room 3</option>
+                        </select>
+                    </div>
+                    </div> -->
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!-- Room Details -->
+                            <div id="roomDetails" class="card shadow mb-3">
+                                <div class="row no-gutters">
+                                    <!-- Image Column -->
+                                    <div class="col-md-4">
+                                        <img src="/object/rmbs-assets/room-image-demo/room1.png" class="card-img" alt="Room Image">
+                                    </div>
+                                    <!-- Details Column -->
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Room Name</h5>
+                                            <p class="card-text">Capacity: 20 people</p>
+                                            <p class="card-text">Facilities: Projector, Whiteboard</p>
+                                            <!-- Book Button -->
+                                            <a href="#" class="btn btn-primary">Book</a>
+                                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#roomDetailModal1"><i class="fas fa-fw fa-regular fa-eye"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
+                            
+                            <div id="roomDetails" class="card shadow mb-3">
+                                <div class="row no-gutters">
+                                    <!-- Image Column -->
+                                    <div class="col-md-4">
+                                        <img src="/object/rmbs-assets/room-image-demo/room2.jpg" class="card-img" alt="Room Image">
+                                    </div>
+                                    <!-- Details Column -->
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Room Name</h5>
+                                            <p class="card-text">Capacity: 15 people</p>
+                                            <p class="card-text">Facilities: Projector, Whiteboard</p>
+                                            <!-- Book Button -->
+                                            <a href="#" class="btn btn-primary">Book</a>
+                                            
+                                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#roomDetailModal1"><i class="fas fa-fw fa-regular fa-eye"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
+                            
+                            <div id="roomDetails" class="card shadow mb-3">
+                                <div class="row no-gutters">
+                                    <!-- Image Column -->
+                                    <div class="col-md-4">
+                                        <img src="/object/rmbs-assets/room-image-demo/room3.jpg" class="card-img" alt="Room Image">
+                                    </div>
+                                    <!-- Details Column -->
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Room Name</h5>
+                                            <p class="card-text">Capacity: 10 people</p>
+                                            <p class="card-text">Facilities: Whiteboard</p>
+                                            <!-- Book Button -->
+                                            <a href="#" class="btn btn-primary">Book</a>
+                                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#roomDetailModal1"><i class="fas fa-fw fa-regular fa-eye"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
+                            
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            
+            </div>
+
+        </div>
+        <!-- End Page Wrapper -->
+        <!-- Room 1 Detail Modal -->
+        <div class="modal fade" id="roomDetailModal1">
+            <div class="modal-dialog" style="max-width:fit-content;">
+                <div class="modal-content" style="">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Room 1 Details</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Larger Image -->
+                        <img src="/object/rmbs-assets/room-image-demo/room1.png" class="img-fluid" alt="Larger Room Image">
+                        <!-- Room Details -->
+                        <h5 class="mt-3">Room 1</h5>
+                        <p>Capacity: 20 people</p>
+                        <p>Facilities: Projector, Whiteboard</p>
+                        <p>Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt erat non tincidunt vehicula.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'script-sources.html' %}
+
+
+    </body>
+</html>

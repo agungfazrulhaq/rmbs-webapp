@@ -31,6 +31,7 @@ async def read_rooms(request: Request, response: Response, current_user: dict = 
         raise HTTPException(status_code=401, detail="Unauthorized")
     
     # request = {"Hello" : "World", "user" : current_user}
+    request = {"user" : current_user}
     return templates.TemplateResponse("rooms-admin.html", {"request": request})
 
 # Add more room-related endpoints here

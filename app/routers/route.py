@@ -29,5 +29,5 @@ async def root(request: Request, response: Response, current_user: dict = Depend
     if not reset_expiration_active_token(unique_id):
         raise HTTPException(status_code=401, detail="Unauthorized")
     
-    request = {"Hello" : "World", "user" : current_user}
+    request = {"user" : current_user}
     return templates.TemplateResponse("index.html", {"request": request})

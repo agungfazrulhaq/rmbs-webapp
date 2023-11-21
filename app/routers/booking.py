@@ -29,7 +29,7 @@ async def root(request: Request, response: Response, current_user: dict = Depend
     if not reset_expiration_active_token(unique_id):
         raise HTTPException(status_code=401, detail="Unauthorized")
     
-    # request = {"Hello" : "World", "user" : current_user}
+    request = {"user" : current_user}
     return templates.TemplateResponse("schedules.html", {"request": request})
 
 @router.get("/form")
@@ -42,5 +42,19 @@ async def root(request: Request, response: Response, current_user: dict = Depend
     if not reset_expiration_active_token(unique_id):
         raise HTTPException(status_code=401, detail="Unauthorized")
     
-    # request = {"Hello" : "World", "user" : current_user}
+    request = {"user" : current_user}
     return templates.TemplateResponse("booking.html", {"request": request})
+
+@router.get("/rooms")
+async def read_rooms(request: Request, response: Response, current_user: dict = Depends(decode_jwt_token)):
+    token = request.cookies.get("Authorization", "").replace("Bearer ", "")
+    if not current_user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    unique_id = request.cookies.get("UniqueID", "")
+    print(unique_id)
+    if not reset_expiration_active_token(unique_id):
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    
+    # request = {"Hello" : "World", "user" : current_user}
+    request = {"user" : current_user}
+    return templates.TemplateResponse("room-list.html", {"request": request})
