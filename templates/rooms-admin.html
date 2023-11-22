@@ -45,57 +45,25 @@
                                     </thead>
                                     <tbody>
                                         <!-- Example Room Rows -->
+                                        {% for room in request.room_list %}
                                         <tr>
-                                            <td>Sunset Suite</td>
-                                            <td>2</td>
-                                            <td>Cozy room with a sunset view</td>
-                                            <td>Wi-Fi, TV</td>
+                                            <td>{{ room['room_name'] }}</td>
+                                            <td>{{ room['capacity'] }}</td>
+                                            <td>{{ room['description'] }}</td>
+                                            <td>{{ room['facility'] }}</td>
                                             <td>
-                                                <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editRoomModal">Edit</button>
+                                                <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#editRoomModal{{ room['room_id'] }}">Edit</button>
                                                 <button class="btn btn-danger btn-sm">Delete</button>
                                                 <button class="btn btn-secondary btn-sm">Disable</button>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>Ocean View</td>
-                                            <td>4</td>
-                                            <td>Spacious room with ocean view</td>
-                                            <td>Wi-Fi, TV, Minibar</td>
-                                            <td>
-                                                <button class="btn btn-info btn-sm">Edit</button>
-                                                <button class="btn btn-danger btn-sm">Delete</button>
-                                                <button class="btn btn-secondary btn-sm">Disable</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Mountain Retreat</td>
-                                            <td>3</td>
-                                            <td>Quiet room with mountain view</td>
-                                            <td>Wi-Fi, AC</td>
-                                            <td>
-                                                <button class="btn btn-info btn-sm">Edit</button>
-                                                <button class="btn btn-danger btn-sm">Delete</button>
-                                                <button class="btn btn-secondary btn-sm">Disable</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Urban Deluxe</td>
-                                            <td>5</td>
-                                            <td>Modern room in urban setting</td>
-                                            <td>Wi-Fi, TV, AC, Minibar</td>
-                                            <td>
-                                                <button class="btn btn-info btn-sm">Edit</button>
-                                                <button class="btn btn-danger btn-sm">Delete</button>
-                                                <button class="btn btn-secondary btn-sm">Disable</button>
-                                            </td>
-                                        </tr>
+                                        {% endfor %}
+
                                     </tbody>
                                 </table>
                                 </div>
                             </div>
-                        </div>                        
-
-
+                        </div>
                     </div>
                 </div>
             </div>
@@ -116,29 +84,29 @@
                 </div>
                 <div class="modal-body">
                     <!-- Form for adding a room -->
-                    <form id="addRoomForm">
+                    <form action="/admin/rooms/add" method="post" id="addRoomForm" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="roomName">Room Name</label>
-                            <input type="text" class="form-control" id="roomName" placeholder="Enter room name">
+                            <input type="text" class="form-control" name="room_name" id="roomName" placeholder="Enter room name">
                         </div>
                         <div class="form-group">
                             <label for="roomCapacity">Capacity</label>
-                            <input type="number" class="form-control" id="roomCapacity" placeholder="Enter capacity">
+                            <input type="number" class="form-control" name="capacity" id="roomCapacity" placeholder="Enter capacity">
                         </div>
                         <div class="form-group">
                             <label for="roomDescription">Description</label>
-                            <textarea class="form-control" id="roomDescription" rows="3" placeholder="Enter description"></textarea>
+                            <textarea class="form-control" id="roomDescription" name="description" rows="3" placeholder="Enter description"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="roomFacilities">Facilities</label>
-                            <input type="text" class="form-control" id="roomFacilities" placeholder="Enter facilities">
+                            <input type="text" class="form-control" name="facility" id="roomFacilities" placeholder="Enter facilities">
                         </div>
                         <div class="form-group">
                             <label for="roomImage">Upload Image</label>
-                            <input type="file" class="form-control-file" id="roomImage">
+                            <input type="file" name="image" class="form-control-file" id="roomImage">
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="roomEnabled">
+                            <input class="form-check-input" name="available" type="checkbox" id="roomEnabled">
                             <label class="form-check-label" for="roomEnabled">
                                 Enable Room
                             </label>
@@ -153,8 +121,10 @@
         </div>
     </div>
 
+
     <!-- Edit Room Modal -->
-    <div class="modal fade" id="editRoomModal" tabindex="-1" role="dialog" aria-labelledby="editRoomModalLabel" aria-hidden="true">
+    {% for room_edit in request.room_list %}
+    <div class="modal fade" id="editRoomModal{{ room_edit['room_id'] }}" tabindex="-1" role="dialog" aria-labelledby="editRoomModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -165,28 +135,33 @@
                 </div>
                 <div class="modal-body">
                     <form id="editRoomForm">
+                        <input type="hidden" name="roomID" value="{{ room_edit['room_id'] }}">
                         <div class="form-group">
                             <label for="roomName">Room Name</label>
-                            <input type="text" class="form-control" id="roomName" placeholder="Enter room name">
+                            <input type="text" class="form-control" id="roomName" placeholder="Enter room name" value="{{ room_edit['room_name'] }}">
                         </div>
                         <div class="form-group">
                             <label for="roomCapacity">Capacity</label>
-                            <input type="number" class="form-control" id="roomCapacity" placeholder="Enter capacity">
+                            <input type="number" class="form-control" id="roomCapacity" placeholder="Enter capacity" value="{{ room_edit['capacity'] }}">
                         </div>
                         <div class="form-group">
                             <label for="roomDescription">Description</label>
-                            <textarea class="form-control" id="roomDescription" rows="3" placeholder="Enter description"></textarea>
+                            <textarea class="form-control" id="roomDescription" rows="3" placeholder="Enter description" >{{ room_edit['description'] }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="roomFacilities">Facilities</label>
-                            <input type="text" class="form-control" id="roomFacilities" placeholder="Enter facilities">
+                            <input type="text" class="form-control" id="roomFacilities" placeholder="Enter facilities" value="{{ room_edit['facility'] }}">
                         </div>
                         <div class="form-group">
                             <label for="roomImage">Upload Image</label>
                             <input type="file" class="form-control-file" id="roomImage">
                         </div>
                         <div class="form-check">
+                            {% if room_edit['available'] %}
+                            <input class="form-check-input" type="checkbox" id="roomEnabled" checked>
+                            {% else %}
                             <input class="form-check-input" type="checkbox" id="roomEnabled">
+                            {% endif %}
                             <label class="form-check-label" for="roomEnabled">
                                 Enable Room
                             </label>
@@ -200,6 +175,8 @@
             </div>
         </div>
     </div>
+    {% endfor %}
+
     {% include 'script-sources.html' %}
 
     <!-- Page level plugins -->

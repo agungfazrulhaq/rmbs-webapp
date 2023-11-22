@@ -16,7 +16,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 class RoomDB(Base):
     __tablename__ = "rooms"
 
-    room_id = Column(Integer, primary_key=True, index=True)
+    room_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     room_name = Column(String)
     capacity = Column(Integer)
     facility = Column(String)
@@ -34,7 +34,6 @@ class RoomDB(Base):
 
 
 class Room(BaseModel):
-    room_id: int
     room_name: str
     capacity: int
     facility: str
@@ -44,7 +43,6 @@ class Room(BaseModel):
 
     def create_room(self, db: Session = SessionLocal()):
         db_room = RoomDB(
-            room_id=self.room_id,
             room_name=self.room_name,
             capacity=self.capacity,
             facility=self.facility,
@@ -62,4 +60,41 @@ class Room(BaseModel):
         except Exception as e:
             db.rollback()
             logger.error(f"Error occurred: {e}")
+            return None
+    
+    @staticmethod
+    def delete_room(room_id: int, db: Session = SessionLocal()):
+        room_to_delete = db.query(RoomDB).filter(RoomDB.room_id == room_id).first()
+        if room_to_delete:
+            try:
+                db.delete(room_to_delete)
+                db.commit()
+                logger.info(f"Room with ID {room_id} deleted")
+                return {"message": "Room deleted successfully"}
+            except Exception as e:
+                db.rollback()
+                logger.error(f"Error occurred: {e}")
+                return None
+        else:
+            logger.error(f"Room with ID {room_id} not found")
+            return None
+            
+    @staticmethod
+    def update_room(room_id: int, updated_room: dict, db: Session = SessionLocal()):
+        room_to_update = db.query(RoomDB).filter(RoomDB.room_id == room_id).first()
+        if room_to_update:
+            try:
+                for key, value in updated_room.items():
+                    setattr(room_to_update, key, value)
+
+                db.commit()
+                db.refresh(room_to_update)
+                logger.info(f"Room with ID {room_id} updated")
+                return {"message": "Room updated successfully"}
+            except Exception as e:
+                db.rollback()
+                logger.error(f"Error occurred: {e}")
+                return None
+        else:
+            logger.error(f"Room with ID {room_id} not found")
             return None

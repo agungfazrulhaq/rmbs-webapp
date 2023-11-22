@@ -168,5 +168,30 @@
         <!-- Custom scripts for all pages-->
         <script src="/static/js/sb-admin-2.min.js"></script>
         <script src="/static/js/active-link.js"></script>
+
+        <!-- Page level room page js-->
+        <script>
+            // Event listener for the "Check Repeated Event" checkbox
+            const repeatedEventCheckbox = document.getElementById("repeatedEvent");
+            const repeatedTypeSelect = document.getElementById("repeatedType");
+            const repeatedEndDateInput = document.getElementById("repeatedEndDate");
+
+            repeatedEventCheckbox.addEventListener("change", function () {
+                if (repeatedEventCheckbox.checked) {
+                    repeatedTypeSelect.removeAttribute("disabled");
+                    repeatedEndDateInput.removeAttribute("disabled");
+                } else {
+                    repeatedTypeSelect.setAttribute("disabled", true);
+                    repeatedEndDateInput.setAttribute("disabled", true);
+                }
+            });
+
+            // Event listener for the "Check Schedule" button
+            const checkScheduleButton = document.getElementById("checkSchedule");
+            checkScheduleButton.addEventListener("click", function () {
+                // Implement logic to check if the booking is viable and display the result here
+                alert("Checking schedule...");
+            });
+        </script>
     </body>
 </html>

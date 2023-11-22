@@ -46,68 +46,28 @@
 
                     <div class="row">
                         <div class="col-lg-12">
-                            <!-- Room Details -->
+                            {% for room_detail in request.room_list %}
                             <div id="roomDetails" class="card shadow mb-3">
                                 <div class="row no-gutters">
                                     <!-- Image Column -->
                                     <div class="col-md-4">
-                                        <img src="/object/rmbs-assets/room-image-demo/room1.png" class="card-img" alt="Room Image">
+                                        <img src="{{ room_detail['image_url'] }}" class="card-img" alt="Room Image">
                                     </div>
                                     <!-- Details Column -->
                                     <div class="col-md-8">
                                         <div class="card-body">
-                                            <h5 class="card-title">Room Name</h5>
-                                            <p class="card-text">Capacity: 20 people</p>
-                                            <p class="card-text">Facilities: Projector, Whiteboard</p>
+                                            <h5 class="card-title">{{ room_detail['room_name'] }}</h5>
+                                            <p class="card-text">Capacity: {{ room_detail['capacity'] }} people</p>
+                                            <p class="card-text">Facilities: {{ room_detail['facility'] }}</p>
+                                            <!-- <p class="card-text">{{ room_detail['description'] }}</p> -->
                                             <!-- Book Button -->
-                                            <a href="#" class="btn btn-primary">Book</a>
-                                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#roomDetailModal1"><i class="fas fa-fw fa-regular fa-eye"></i></a>
+                                            <a href="/booking/form" class="btn btn-primary">Book</a>
+                                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#roomDetailModal{{ room_detail['room_id'] }}"><i class="fas fa-fw fa-regular fa-eye"></i></a>
                                         </div>
                                     </div>
                                 </div>
-                            </div>                            
-                            
-                            <div id="roomDetails" class="card shadow mb-3">
-                                <div class="row no-gutters">
-                                    <!-- Image Column -->
-                                    <div class="col-md-4">
-                                        <img src="/object/rmbs-assets/room-image-demo/room2.jpg" class="card-img" alt="Room Image">
-                                    </div>
-                                    <!-- Details Column -->
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Room Name</h5>
-                                            <p class="card-text">Capacity: 15 people</p>
-                                            <p class="card-text">Facilities: Projector, Whiteboard</p>
-                                            <!-- Book Button -->
-                                            <a href="#" class="btn btn-primary">Book</a>
-                                            
-                                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#roomDetailModal1"><i class="fas fa-fw fa-regular fa-eye"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>                            
-                            
-                            <div id="roomDetails" class="card shadow mb-3">
-                                <div class="row no-gutters">
-                                    <!-- Image Column -->
-                                    <div class="col-md-4">
-                                        <img src="/object/rmbs-assets/room-image-demo/room3.jpg" class="card-img" alt="Room Image">
-                                    </div>
-                                    <!-- Details Column -->
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Room Name</h5>
-                                            <p class="card-text">Capacity: 10 people</p>
-                                            <p class="card-text">Facilities: Whiteboard</p>
-                                            <!-- Book Button -->
-                                            <a href="#" class="btn btn-primary">Book</a>
-                                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#roomDetailModal1"><i class="fas fa-fw fa-regular fa-eye"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>                            
-                            
+                            </div>  
+                            {% endfor %}
                         </div>
                     </div>
                     </div>
@@ -117,22 +77,24 @@
 
         </div>
         <!-- End Page Wrapper -->
+
+        {% for room_modal in request.room_list %}
         <!-- Room 1 Detail Modal -->
-        <div class="modal fade" id="roomDetailModal1">
+        <div class="modal fade" id="roomDetailModal{{ room_modal['room_id'] }}">
             <div class="modal-dialog" style="max-width:fit-content;">
                 <div class="modal-content" style="">
                     <div class="modal-header">
-                        <h5 class="modal-title">Room 1 Details</h5>
+                        <h5 class="modal-title">{{ room_modal['room_name'] }} Details</h5>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
                         <!-- Larger Image -->
-                        <img src="/object/rmbs-assets/room-image-demo/room1.png" class="img-fluid" alt="Larger Room Image">
+                        <img src="{{ room_modal['image_url'] }}" class="img-fluid" alt="Larger Room Image">
                         <!-- Room Details -->
-                        <h5 class="mt-3">Room 1</h5>
-                        <p>Capacity: 20 people</p>
-                        <p>Facilities: Projector, Whiteboard</p>
-                        <p>Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt erat non tincidunt vehicula.</p>
+                        <h5 class="mt-3">{{ room_modal['room_name'] }}</h5>
+                        <p>Capacity: {{ room_modal['capacity'] }} people</p>
+                        <p>Facilities: {{ room_modal['facility'] }} </p>
+                        <p>Description: {{ room_modal['description'] }}</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -140,6 +102,8 @@
                 </div>
             </div>
         </div>
+        {% endfor %}
+
         {% include 'script-sources.html' %}
 
 
